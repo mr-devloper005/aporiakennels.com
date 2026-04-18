@@ -1,93 +1,120 @@
-import Link from "next/link";
-import { PageShell } from "@/components/shared/page-shell";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { mockTeamMembers } from "@/data/mock-data";
-import { SITE_CONFIG } from "@/lib/site-config";
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { WarmMarketingLayout, warmCardClass, warmCardMutedClass, warmPillClass } from '@/components/marketing/warm-marketing-layout'
+import { Button } from '@/components/ui/button'
+import { SITE_CONFIG } from '@/lib/site-config'
+import { buildPageMetadata } from '@/lib/seo'
+import { mockTeamMembers } from '@/data/mock-data'
 
-const highlights = [
-  { label: "Creators onboarded", value: "12k+" },
-  { label: "Bookmarks shared", value: "180k" },
-  { label: "Listings published", value: "8.6k" },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    path: '/about',
+    title: `About ${SITE_CONFIG.name}`,
+    description: `Meet the people and purpose behind ${SITE_CONFIG.name}—a warm, image-first gallery for dogs and the humans who love them.`,
+  })
+}
+
+const milestones = [
+  { label: 'Moments shared', value: '1,200+' },
+  { label: 'Volunteer hours', value: '4.8k' },
+  { label: 'Tail wags (approx.)', value: '∞' },
+]
 
 const values = [
-  { title: "Curated by people", description: "We believe trusted recommendations beat endless feeds." },
-  { title: "Designed for focus", description: "Clear, calm UI helps you find the next best resource fast." },
-  { title: "Built to share", description: "Collections make collaboration and knowledge flow effortless." },
-];
+  {
+    title: 'Care before clicks',
+    body: 'Every layout decision keeps dogs, adopters, and families at the center—never noisy feeds or pressure tactics.',
+  },
+  {
+    title: 'Photography with heart',
+    body: 'We celebrate natural light, candid joy, and honest storytelling. The gallery is a scrapbook the whole community can browse.',
+  },
+  {
+    title: 'Trust in the open',
+    body: 'Clear policies, visible contact paths, and respectful data practices so visitors feel safe sharing their photos.',
+  },
+]
 
 export default function AboutPage() {
   return (
-    <PageShell
+    <WarmMarketingLayout
+      eyebrow="Our story"
       title={`About ${SITE_CONFIG.name}`}
-      description={`${SITE_CONFIG.name} is a modern platform for creators, communities, and curated business discovery.`}
+      description={`${SITE_CONFIG.name} is a photo-first home for kennel life—daily romps, quiet cuddles, and the small details worth saving. We built it to feel like a warm invitation, not a cold directory.`}
       actions={
         <>
-          <Button variant="outline" asChild>
-            <Link href="/team">Meet the Team</Link>
+          <Button asChild className="rounded-full bg-[#e68a4f] px-6 text-white hover:bg-[#d97a42]">
+            <Link href="/images">Open the gallery</Link>
           </Button>
-          <Button asChild>
-            <Link href="/contact">Contact Us</Link>
+          <Button asChild variant="outline" className="rounded-full border-[#e8dfd4] bg-white text-[#3d291c] hover:bg-[#fff5eb]">
+            <Link href="/team">Meet the team</Link>
           </Button>
         </>
       }
+      heroAside={
+        <div className="flex justify-center lg:justify-end">
+          <div className="rounded-2xl border border-[#e8dfd4] bg-white p-5 shadow-[0_22px_55px_rgba(62,40,20,0.1)]">
+            <img src="/favicon.png?v=20260418" alt="" width={128} height={128} className="mx-auto rounded-xl" />
+            <p className="mt-3 text-center text-xs text-[#6a5548]">Mark + mutts, serif warmth, cream fields—the mark we wear proudly.</p>
+          </div>
+        </div>
+      }
     >
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border-border bg-card">
-          <CardContent className="space-y-4 p-6">
-            <Badge variant="secondary">Our Story</Badge>
-            <h2 className="text-2xl font-semibold text-foreground">
-              A single home for knowledge, discovery, and community.
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {SITE_CONFIG.name} brings together publishing, listings, and social bookmarking so teams can move faster
-              and keep their best resources close.
-            </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {highlights.map((item) => (
-                <div key={item.label} className="rounded-lg border border-border bg-secondary/40 p-4">
-                  <div className="text-2xl font-semibold text-foreground">{item.value}</div>
-                  <div className="text-xs text-muted-foreground">{item.label}</div>
-                </div>
-              ))}
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className={warmCardClass}>
+          <span className={warmPillClass}>Why we exist</span>
+          <h2 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold text-[#3d291c]">A gallery built for real life with dogs</h2>
+          <p className="mt-4 text-sm leading-7 text-[#6a5548]">
+            {SITE_CONFIG.name} started as a simple need: one trustworthy place to collect adoption photos, volunteer snapshots, and
+            community memories without losing them in generic social feeds. Today it is a calm, editorial surface where every image gets
+            room to breathe—rounded corners, soft shadows, and typography that nods to our serif logo.
+          </p>
+          <p className="mt-4 text-sm leading-7 text-[#6a5548]">
+            Whether you are browsing for joy or sharing a litter update, the experience should feel handcrafted: warm cream backgrounds,
+            chocolate-brown type for reading comfort, and amber buttons that signal action without shouting.
+          </p>
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {milestones.map((m) => (
+              <div key={m.label} className="rounded-[1rem] border border-[#ebe3d7] bg-[#fffefb] px-4 py-4 text-center">
+                <div className="text-2xl font-semibold text-[#3d291c]">{m.value}</div>
+                <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6a5548]">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid gap-4">
+          {values.map((v) => (
+            <div key={v.title} className={warmCardMutedClass}>
+              <h3 className="text-lg font-semibold text-[#3d291c]">{v.title}</h3>
+              <p className="mt-2 text-sm leading-7 text-[#6a5548]">{v.body}</p>
             </div>
-          </CardContent>
-        </Card>
-        <div className="space-y-4">
-          {values.map((value) => (
-            <Card key={value.title} className="border-border bg-card">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-foreground">{value.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{value.description}</p>
-              </CardContent>
-            </Card>
           ))}
         </div>
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {mockTeamMembers.map((member) => (
-          <Card key={member.id} className="border-border bg-card transition-transform hover:-translate-y-1">
-            <CardContent className="p-6">
+      <div className="mt-14">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[#3d291c]">Faces behind the fence</h2>
+          <Link href="/careers" className="text-sm font-semibold text-[#e68a4f] hover:underline">
+            Join us
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {mockTeamMembers.map((member) => (
+            <div key={member.id} className={`${warmCardClass} transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(62,40,20,0.1)]`}>
               <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                <img src={member.avatar} alt="" className="h-14 w-14 rounded-full object-cover ring-2 ring-[#f3ebe2]" width={56} height={56} />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{member.name}</p>
-                  <p className="text-xs text-muted-foreground">{member.role}</p>
+                  <p className="text-sm font-semibold text-[#3d291c]">{member.name}</p>
+                  <p className="text-xs text-[#6a5548]">{member.role}</p>
                 </div>
               </div>
-              <p className="mt-3 text-sm text-muted-foreground">{member.bio}</p>
-              <p className="mt-3 text-xs text-muted-foreground">{member.location}</p>
-            </CardContent>
-          </Card>
-        ))}
+              <p className="mt-4 text-sm leading-7 text-[#6a5548]">{member.bio}</p>
+              <p className="mt-3 text-xs font-medium text-[#e68a4f]">{member.location}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </PageShell>
-  );
+    </WarmMarketingLayout>
+  )
 }

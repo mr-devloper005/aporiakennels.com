@@ -1,68 +1,92 @@
-import Link from "next/link";
-import { PageShell } from "@/components/shared/page-shell";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { SITE_CONFIG } from "@/lib/site-config";
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { WarmMarketingLayout, warmCardClass, warmCardMutedClass, warmPillClass } from '@/components/marketing/warm-marketing-layout'
+import { Button } from '@/components/ui/button'
+import { SITE_CONFIG } from '@/lib/site-config'
+import { buildPageMetadata } from '@/lib/seo'
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    path: '/careers',
+    title: `Careers | ${SITE_CONFIG.name}`,
+    description: `Volunteer and staff roles that keep ${SITE_CONFIG.name} caring, creative, and camera-ready.`,
+  })
+}
 
 const roles = [
-  { title: "Product Designer", location: "Remote", type: "Full-time", level: "Mid" },
-  { title: "Frontend Engineer", location: "New York, NY", type: "Full-time", level: "Senior" },
-  { title: "Community Lead", location: "Remote", type: "Part-time", level: "Mid" },
-];
+  {
+    title: 'Lead kennel photographer',
+    location: 'On-site + remote editing',
+    type: 'Volunteer / stipend',
+    level: 'Mid',
+    blurb: 'Own weekend shoots, mentor new volunteers, and keep our gallery color grade consistent.',
+  },
+  {
+    title: 'Adoption storyteller',
+    location: 'Hybrid',
+    type: 'Part-time',
+    level: 'Junior+',
+    blurb: 'Pair bios with imagery, interview fosters, and publish weekly spotlights.',
+  },
+  {
+    title: 'Community logistics lead',
+    location: 'Regional hubs',
+    type: 'Contract',
+    level: 'Senior',
+    blurb: 'Coordinate transport days, supply drives, and pop-up micro events with partner rescues.',
+  },
+]
 
 const benefits = [
-  "Flexible schedules and remote-first culture",
-  "Health, dental, and vision coverage",
-  "Annual learning stipend",
-  "Quarterly offsites and team retreats",
-];
+  'Mental-health aware scheduling with rest days after big events',
+  'Gear stipend for volunteers who complete onboarding',
+  'Annual print swap—every contributor receives a physical zine',
+  'Direct line to leadership (no ticket black holes)',
+]
 
 export default function CareersPage() {
   return (
-    <PageShell
-      title="Careers"
-      description={`Help us build the future of community-driven publishing at ${SITE_CONFIG.name}.`}
+    <WarmMarketingLayout
+      eyebrow="Careers"
+      title="Work that smells like cedar shavings"
+      description={`${SITE_CONFIG.name} blends nonprofit grit with editorial polish. If you love dogs, daylight, and shipping meaningful stories, you will fit right in.`}
       actions={
-        <Button asChild>
-          <Link href="/contact">Apply Now</Link>
+        <Button asChild className="rounded-full bg-[#e68a4f] px-6 text-white hover:bg-[#d97a42]">
+          <Link href="/help">Talk with us</Link>
         </Button>
       }
     >
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-4">
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="space-y-5">
           {roles.map((role) => (
-            <Card key={role.title} className="border-border bg-card">
-              <CardContent className="p-6">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="secondary">{role.level}</Badge>
-                  <Badge variant="outline">{role.type}</Badge>
-                </div>
-                <h2 className="mt-3 text-lg font-semibold text-foreground">{role.title}</h2>
-                <p className="mt-1 text-sm text-muted-foreground">{role.location}</p>
-                <Button variant="outline" className="mt-4" asChild>
-                  <Link href="/contact">View Role</Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <div key={role.title} className={warmCardClass}>
+              <div className="flex flex-wrap gap-2">
+                <span className={warmPillClass}>{role.level}</span>
+                <span className="rounded-full border border-[#e8dfd4] bg-[#fffefb] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6a5548]">{role.type}</span>
+              </div>
+              <h2 className="mt-4 text-xl font-semibold text-[#3d291c]">{role.title}</h2>
+              <p className="mt-1 text-sm font-medium text-[#e68a4f]">{role.location}</p>
+              <p className="mt-3 text-sm leading-7 text-[#6a5548]">{role.blurb}</p>
+              <Button asChild variant="outline" className="mt-5 rounded-full border-[#e8dfd4]">
+                <Link href="/help">Start a conversation</Link>
+              </Button>
+            </div>
           ))}
         </div>
-        <Card className="border-border bg-card">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-foreground">Why {SITE_CONFIG.name}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              We are building a product that helps people discover and share the best knowledge on the web.
-            </p>
-            <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-              {benefits.map((benefit) => (
-                <div key={benefit} className="rounded-md border border-border bg-secondary/40 px-3 py-2">
-                  {benefit}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <div className={warmCardMutedClass}>
+          <h3 className="text-lg font-semibold text-[#3d291c]">Why {SITE_CONFIG.name}</h3>
+          <p className="mt-3 text-sm leading-7 text-[#6a5548]">
+            We are small on purpose. That means your photos land in front of families quickly, your ideas shape the roadmap, and your rest is guarded fiercely.
+          </p>
+          <ul className="mt-6 space-y-3 text-sm text-[#6a5548]">
+            {benefits.map((b) => (
+              <li key={b} className="rounded-[1rem] border border-[#ebe3d7] bg-white px-4 py-3">
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </PageShell>
-  );
+    </WarmMarketingLayout>
+  )
 }

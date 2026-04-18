@@ -29,8 +29,10 @@ const variantShells = {
   'listing-showcase': 'bg-[linear-gradient(180deg,#ffffff_0%,#f4f9ff_100%)]',
   'article-editorial': 'bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.08),transparent_20%),linear-gradient(180deg,#fff8ef_0%,#ffffff_100%)]',
   'article-journal': 'bg-[linear-gradient(180deg,#fffdf9_0%,#f7f1ea_100%)]',
-  'image-masonry': 'bg-[linear-gradient(180deg,#09101d_0%,#111c2f_100%)] text-white',
-  'image-portfolio': 'bg-[linear-gradient(180deg,#07111f_0%,#13203a_100%)] text-white',
+  'image-masonry':
+    'bg-[linear-gradient(180deg,#fffdf8_0%,#f9f7f2_45%,#f3ebe2_100%)] text-[#3d291c]',
+  'image-portfolio':
+    'bg-[linear-gradient(180deg,#fffdf8_0%,#f9f7f2_45%,#f3ebe2_100%)] text-[#3d291c]',
   'profile-creator': 'bg-[linear-gradient(180deg,#0a1120_0%,#101c34_100%)] text-white',
   'profile-business': 'bg-[linear-gradient(180deg,#f6fbff_0%,#ffffff_100%)]',
   'classified-bulletin': 'bg-[linear-gradient(180deg,#edf3e4_0%,#ffffff_100%)]',
@@ -60,7 +62,8 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   const shellClass = variantShells[layoutKey as keyof typeof variantShells] || 'bg-background'
   const Icon = taskIcons[task] || LayoutGrid
 
-  const isDark = ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
+  const isDark = ['profile-creator'].includes(layoutKey)
+  const isWarmVisual = layoutKey === 'image-masonry' || layoutKey === 'image-portfolio'
   const ui = isDark
     ? {
         muted: 'text-slate-300',
@@ -69,21 +72,29 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         input: 'border-white/10 bg-white/6 text-white',
         button: 'bg-white text-slate-950 hover:bg-slate-200',
       }
-    : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+    : isWarmVisual
       ? {
-          muted: 'text-[#72594a]',
-          panel: 'border border-[#dbc6b6] bg-white/90',
-          soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
-          input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          muted: 'text-[#6a5548]',
+          panel: 'border border-[#e8dfd4] bg-white shadow-[0_18px_50px_rgba(62,40,20,0.06)]',
+          soft: 'border border-[#ebe3d7] bg-[#fffefb]',
+          input: 'border border-[#e8dfd4] bg-white text-[#3d291c]',
+          button: 'bg-[#e68a4f] text-white hover:bg-[#d97a42]',
         }
-      : {
-          muted: 'text-slate-600',
-          panel: 'border border-slate-200 bg-white',
-          soft: 'border border-slate-200 bg-slate-50',
-          input: 'border border-slate-200 bg-white text-slate-950',
-          button: 'bg-slate-950 text-white hover:bg-slate-800',
-        }
+      : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+        ? {
+            muted: 'text-[#72594a]',
+            panel: 'border border-[#dbc6b6] bg-white/90',
+            soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
+            input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
+            button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          }
+        : {
+            muted: 'text-slate-600',
+            panel: 'border border-slate-200 bg-white',
+            soft: 'border border-slate-200 bg-slate-50',
+            input: 'border border-slate-200 bg-white text-slate-950',
+            button: 'bg-slate-950 text-white hover:bg-slate-800',
+          }
 
   return (
     <div className={`min-h-screen ${shellClass}`}>
@@ -170,18 +181,32 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'image-masonry' || layoutKey === 'image-portfolio' ? (
-          <section className="mb-12 grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <section className="mb-12 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
-              <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${ui.soft}`}>
-                <Icon className="h-3.5 w-3.5" /> Visual feed
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#e68a4f] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white">
+                <Icon className="h-3.5 w-3.5" /> Photo gallery
               </div>
-              <h1 className="mt-5 text-5xl font-semibold tracking-[-0.05em]">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This surface leans into stronger imagery, larger modules, and more expressive spacing so visual content feels materially different from reading and directory pages.</p>
+              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">{taskConfig?.description || 'Latest posts'}</h1>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>
+                A calm, cream-and-amber gallery built for scanning beautiful dog photography—large tiles, soft borders, and gentle motion so every frame feels intentional.
+              </p>
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {[
+                  ['Fresh uploads', 'Weekly highlights from the kennel'],
+                  ['Easy discovery', 'Search titles, tags, and summaries'],
+                  ['Share yours', 'Add moments from your pack'],
+                ].map(([label, detail]) => (
+                  <div key={label} className={`rounded-[1.15rem] px-4 py-4 ${ui.soft}`}>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e68a4f]">{label}</p>
+                    <p className={`mt-2 text-sm leading-6 ${ui.muted}`}>{detail}</p>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.panel}`} />
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.soft}`} />
-              <div className={`col-span-2 min-h-[120px] rounded-[2rem] ${ui.panel}`} />
+              <div className={`min-h-[200px] rounded-[1.75rem] bg-[linear-gradient(145deg,#fffefb,#f3ebe2)] ring-1 ring-[#e8dfd4]`} />
+              <div className={`min-h-[200px] rounded-[1.75rem] bg-[linear-gradient(145deg,#fff5eb,#f9f7f2)] ring-1 ring-[#ebe3d7]`} />
+              <div className={`col-span-2 min-h-[110px] rounded-[1.75rem] bg-[linear-gradient(90deg,rgba(230,138,79,0.12),transparent)] ring-1 ring-[#e8dfd4]`} />
             </div>
           </section>
         ) : null}

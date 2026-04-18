@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Bookmark, Building2, FileText, Image as ImageIcon, Sparkles } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
+import { RegisterForm } from '@/components/auth/register-form'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { REGISTER_PAGE_OVERRIDE_ENABLED, RegisterPageOverride } from '@/overrides/register-page'
@@ -14,6 +15,7 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
       side: 'border border-slate-200 bg-slate-50',
       muted: 'text-slate-600',
       action: 'bg-slate-950 text-white hover:bg-slate-800',
+      input: 'border border-slate-200 bg-white text-slate-950',
       icon: Building2,
       title: 'Create a business-ready account',
       body: 'List services, manage locations, and activate trust signals with a proper directory workflow.',
@@ -26,6 +28,7 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
       side: 'border border-[#e6d6c8] bg-[#fff4e8]',
       muted: 'text-[#6e5547]',
       action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
+      input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
       icon: FileText,
       title: 'Start your contributor workspace',
       body: 'Create a profile for essays, issue drafts, editorial review, and publication scheduling.',
@@ -33,14 +36,15 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
   }
   if (kind === 'visual') {
     return {
-      shell: 'bg-[#07101f] text-white',
-      panel: 'border border-white/10 bg-white/6',
-      side: 'border border-white/10 bg-white/5',
-      muted: 'text-slate-300',
-      action: 'bg-[#8df0c8] text-[#07111f] hover:bg-[#77dfb8]',
+      shell: 'bg-[#f9f7f2] text-[#3d291c]',
+      panel: 'border border-[#e8dfd4] bg-white shadow-[0_22px_55px_rgba(62,40,20,0.07)]',
+      side: 'border border-[#ebe3d7] bg-[#fffefb]',
+      muted: 'text-[#6a5548]',
+      action: 'bg-[#e68a4f] text-white hover:bg-[#d97a42]',
+      input: 'border border-[#e8dfd4] bg-white text-[#3d291c]',
       icon: ImageIcon,
-      title: 'Set up your creator profile',
-      body: 'Launch a visual-first account with gallery publishing, identity surfaces, and profile-led discovery.',
+      title: 'Join the gallery',
+      body: 'Create an account to save your place in the gallery. In this demo, your session is stored locally so you can return anytime.',
     }
   }
   return {
@@ -49,6 +53,7 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
     side: 'border border-[#e8dbce] bg-[#f3e8db]',
     muted: 'text-[#71574a]',
     action: 'bg-[#5b2b3b] text-[#fff0f5] hover:bg-[#74364b]',
+    input: 'border border-[#ddcdbd] bg-white text-[#261811]',
     icon: Bookmark,
     title: 'Create a curator account',
     body: 'Build shelves, save references, and connect collections to your profile without a generic feed setup.',
@@ -83,13 +88,7 @@ export default function RegisterPage() {
 
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Create account</p>
-            <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Full name" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="What are you creating or publishing?" />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Create account</button>
-            </form>
+            <RegisterForm actionClassName={config.action} inputClassName={config.input} />
             <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>
               <span>Already have an account?</span>
               <Link href="/login" className="inline-flex items-center gap-2 font-semibold hover:underline">
