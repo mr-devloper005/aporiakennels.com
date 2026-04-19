@@ -155,14 +155,14 @@ export const taskIntroCopy: Record<
   image: {
     title: 'Image-led posts and visual stories',
     paragraphs: [
-      'Images take the lead in this section through galleries, visual posts, and story-led content where imagery carries the experience.',
-      'These posts connect with articles, listings, and other sections so visuals can act as entry points into deeper content.',
-      'Browse the latest visual updates, then continue into related stories or supporting pages for more context.',
+      'Images take the lead in this section through galleries, candid moments, and story-led posts where photography carries the experience.',
+      'Every card opens into a full image story so you can linger on the details that matter—light, texture, and the personality in each frame.',
+      'Browse the latest uploads, search by keyword, or add your own photos to grow the gallery with the community.',
     ],
     links: [
-      { label: 'Read articles', href: '/articles' },
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open classifieds', href: '/classifieds' },
+      { label: 'Browse gallery', href: '/images' },
+      { label: 'Search photos', href: '/search' },
+      { label: 'Share an image', href: '/create/image' },
     ],
   },
   profile: {

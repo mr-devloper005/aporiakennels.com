@@ -127,4 +127,20 @@ export const THEME_PACKS: Record<ThemePackDefinition['key'], ThemePackDefinition
     },
     notes: ['Warmer curation palette', 'Board-style modules', 'Human-curated feel'],
   },
+  'visual-warm': {
+    key: 'visual-warm',
+    label: 'Visual Warm Gallery',
+    productFamily: 'visual',
+    brandPack: 'editorial-luxe',
+    navbar: 'editorial-bar',
+    footer: 'editorial-footer',
+    homeLayout: 'image-profile-home',
+    motionPack: 'editorial-soft',
+    defaultTaskTemplates: {
+      image: 'image-masonry',
+      profile: 'profile-creator',
+      article: 'article-editorial',
+    },
+    notes: ['Cream and amber gallery shell', 'Editorial warmth without dark studio chrome', 'Image-first pacing'],
+  },
 }

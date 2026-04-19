@@ -2,11 +2,11 @@ import type { SiteRecipe } from '@/design/factory/recipe-types'
 
 export const SITE_RECIPE: SiteRecipe = {
   productFamily: 'visual',
-  themePack: 'pinterest-creator',
+  themePack: 'visual-warm',
   homepageTemplate: 'image-profile-home',
-  navbarTemplate: 'floating-bar',
-  footerTemplate: 'dense-footer',
-  motionPack: 'studio-stagger',
+  navbarTemplate: 'editorial-bar',
+  footerTemplate: 'editorial-footer',
+  motionPack: 'editorial-soft',
   primaryTask: 'image',
   enabledTasks: ['image'],
   taskTemplates: {
