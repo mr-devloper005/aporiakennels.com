@@ -11,6 +11,7 @@ export type ThemePackKey =
   | 'visual-portfolio'
   | 'curation-library'
   | 'curation-warm'
+  | 'visual-warm'
 
 export type SiteRecipe = {
   productFamily: ProductFamily

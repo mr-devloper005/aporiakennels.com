@@ -76,7 +76,7 @@ export default async function SearchPage({
       description={
         query
           ? `Results for "${query}"`
-          : "Browse the latest posts across every task."
+          : "Search titles, tags, and descriptions across the image gallery."
       }
       actions={
         <form action="/search" className="flex w-full gap-2 sm:w-auto">
