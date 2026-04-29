@@ -1,5 +1,14 @@
 import { cn } from "@/lib/utils";
 
+const HTML_ENTITY_MAP: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+};
+
 const escapeHtml = (value: string) =>
   value
     .replace(/&/g, "&amp;")
@@ -7,6 +16,18 @@ const escapeHtml = (value: string) =>
     .replace(/>/g, "&gt;")
     .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#39;");
+
+const decodeHtmlEntities = (value: string) =>
+  value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity) => {
+    const key = String(entity).toLowerCase();
+    if (key[0] === "#") {
+      const isHex = key[1] === "x";
+      const parsed = Number.parseInt(key.slice(isHex ? 2 : 1), isHex ? 16 : 10);
+      return Number.isFinite(parsed) ? String.fromCodePoint(parsed) : match;
+    }
+
+    return HTML_ENTITY_MAP[key] ?? match;
+  });
 
 const sanitizeRichHtml = (html: string) =>
   html
@@ -20,11 +41,13 @@ const sanitizeRichHtml = (html: string) =>
 export const formatRichHtml = (raw?: string | null, fallback = "Details coming soon.") => {
   const source = typeof raw === "string" ? raw.trim() : "";
   if (!source) return `<p>${escapeHtml(fallback)}</p>`;
-  if (/<[a-z][\s\S]*>/i.test(source)) {
-    return sanitizeRichHtml(source);
+
+  const decoded = decodeHtmlEntities(source);
+  if (/<[a-z][\s\S]*>/i.test(decoded)) {
+    return sanitizeRichHtml(decoded);
   }
 
-  return source
+  return decoded
     .split(/\n{2,}/)
     .map((paragraph) => `<p>${escapeHtml(paragraph.replace(/\n/g, " ").trim())}</p>`)
     .join("");

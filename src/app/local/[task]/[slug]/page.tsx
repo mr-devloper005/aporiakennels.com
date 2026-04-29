@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
-import { MapPin, Globe, Phone, Tag, Mail } from "lucide-react";
+import { MapPin, Globe, Phone, Tag, Mail, Calendar, Folder } from "lucide-react";
 import { NavbarShell } from "@/components/shared/navbar-shell";
 import { Footer } from "@/components/shared/footer";
 import { TaskImageCarousel } from "@/components/tasks/task-image-carousel";
@@ -41,8 +41,8 @@ const getContent = (post: any): PostContent => {
 const getImageUrls = (post: any, content: PostContent) => {
   const media = Array.isArray(post.media) ? post.media : [];
   const mediaImages = media
-    .map((item) => item?.url)
-    .filter((url): url is string => isValidImageUrl(url));
+    .map((item: { url: any; }) => item?.url)
+    .filter((url: string | null | undefined): url is string => isValidImageUrl(url));
   const contentImages = Array.isArray(content.images)
     ? content.images.filter((url): url is string => isValidImageUrl(url))
     : [];
@@ -201,9 +201,31 @@ export default function LocalPostDetailPage() {
               <div className="rounded-2xl border border-border bg-card p-5">
                 <h2 className="text-base font-semibold text-foreground">Details</h2>
                 <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+                  {category ? (
+                    <div className="flex items-start gap-2">
+                      <Folder className="mt-0.5 h-4 w-4 shrink-0" />
+                      <span className="text-foreground">{category}</span>
+                    </div>
+                  ) : null}
+                  {post.createdAt ? (
+                    <div className="flex items-start gap-2">
+                      <Calendar className="mt-0.5 h-4 w-4 shrink-0" />
+                      <span>Published {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    </div>
+                  ) : null}
+                  {post.tags?.length ? (
+                    <div className="flex items-start gap-2">
+                      <Tag className="mt-0.5 h-4 w-4 shrink-0" />
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags.map((t: string) => (
+                          <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-xs">{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                   {content.website ? (
                     <div className="flex items-start gap-2">
-                      <Globe className="mt-0.5 h-4 w-4" />
+                      <Globe className="mt-0.5 h-4 w-4 shrink-0" />
                       <a
                         href={content.website}
                         className="break-all text-foreground hover:underline"
@@ -216,13 +238,13 @@ export default function LocalPostDetailPage() {
                   ) : null}
                   {content.phone ? (
                     <div className="flex items-start gap-2">
-                      <Phone className="mt-0.5 h-4 w-4" />
+                      <Phone className="mt-0.5 h-4 w-4 shrink-0" />
                       <span>{content.phone}</span>
                     </div>
                   ) : null}
                   {content.email ? (
                     <div className="flex items-start gap-2">
-                      <Mail className="mt-0.5 h-4 w-4" />
+                      <Mail className="mt-0.5 h-4 w-4 shrink-0" />
                       <a
                         href={`mailto:${content.email}`}
                         className="break-all text-foreground hover:underline"
@@ -235,7 +257,7 @@ export default function LocalPostDetailPage() {
                   ) : null}
                   {location ? (
                     <div className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 h-4 w-4" />
+                      <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
                       <span>{location}</span>
                     </div>
                   ) : null}
