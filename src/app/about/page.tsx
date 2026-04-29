@@ -91,30 +91,6 @@ export default function AboutPage() {
           ))}
         </div>
       </div>
-
-      <div className="mt-14">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[#3d291c]">Faces behind the fence</h2>
-          <Link href="/careers" className="text-sm font-semibold text-[#e68a4f] hover:underline">
-            Join us
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {mockTeamMembers.map((member) => (
-            <div key={member.id} className={`${warmCardClass} transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(62,40,20,0.1)]`}>
-              <div className="flex items-center gap-3">
-                <img src={member.avatar} alt="" className="h-14 w-14 rounded-full object-cover ring-2 ring-[#f3ebe2]" width={56} height={56} />
-                <div>
-                  <p className="text-sm font-semibold text-[#3d291c]">{member.name}</p>
-                  <p className="text-xs text-[#6a5548]">{member.role}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-7 text-[#6a5548]">{member.bio}</p>
-              <p className="mt-3 text-xs font-medium text-[#e68a4f]">{member.location}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </WarmMarketingLayout>
   )
 }
