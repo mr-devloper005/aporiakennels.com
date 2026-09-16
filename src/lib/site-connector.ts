@@ -116,37 +116,6 @@ async function fetchPublicJsonEx<T>(
 
 async function fetchPublicJson<T>(path: string, options?: { fresh?: boolean; timeoutMs?: number }): Promise<T | null> {
   return (await fetchPublicJsonEx<T>(path, options)).data;
-}): Promise<T | null> {
-  const target = getPublicUrl(path);
-  if (!target) return null;
-
-  try {
-    const signal =
-      typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
-        ? AbortSignal.timeout(REQUEST_TIMEOUT_MS)
-        : undefined;
-    const response = await fetch(target, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      signal,
-      ...(options?.fresh ? { cache: "no-store" } : { next: { revalidate: FEED_REVALIDATE_SECONDS } }),
-    });
-
-    if (!response.ok) {
-      if (process.env.NODE_ENV !== "production") {
-        console.warn(`Public connector request failed (${response.status}) for ${target}`);
-      }
-      return null;
-    }
-
-    const json = (await response.json()) as { success: boolean; data?: T };
-    return json.data || null;
-  } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn("Public connector request failed", error);
-    }
-    return null;
-  }
 }
 
 export async function fetchSiteBootstrap(options?: { fresh?: boolean }): Promise<SiteBootstrap | null> {
